@@ -62,6 +62,8 @@ For an external secret manager, create `~/.config/agy-jevgate/config.json`:
 }
 ```
 
+`apiKeyCommand` is split into an executable and arguments without shell expansion. Shell operators such as `&&` are not executed.
+
 `threshold` must be a finite number from `0` through `1`. A Jev probability at or above this value is denied.
 
 ## Decision flow
