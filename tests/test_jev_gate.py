@@ -151,6 +151,13 @@ class TestJevGate(unittest.TestCase):
         self.assertEqual(result["decision"], "deny")
         self.assertEqual(jev_gate.is_denied_command("python3 script.py", "conversation-a"), (True, None))
 
+    def test_api_key_command_does_not_interpret_shell_operators(self):
+        command = f'{sys.executable} -c "import sys; print(sys.argv[1])" safe && echo injected'
+
+        api_key = jev_gate.get_api_key({"apiKeyCommand": command})
+
+        self.assertEqual(api_key, "safe")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -8,6 +8,7 @@ import math
 import os
 import platform
 import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -171,9 +172,12 @@ def get_api_key(config):
     api_key_command = config.get("apiKeyCommand")
     if isinstance(api_key_command, str) and api_key_command:
         try:
+            command_args = shlex.split(api_key_command)
+            if not command_args:
+                return ""
             result = subprocess.run(
-                api_key_command,
-                shell=True,
+                command_args,
+                shell=False,
                 capture_output=True,
                 text=True,
                 timeout=1.5,
@@ -182,7 +186,7 @@ def get_api_key(config):
             api_key = result.stdout.strip()
             if api_key:
                 return api_key
-        except (OSError, subprocess.SubprocessError):
+        except (OSError, ValueError, subprocess.SubprocessError):
             return ""
 
     if platform.system() == "Darwin":
