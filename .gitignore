@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+.agents/
+.env
+.env.*
+!.env.example
+.coverage
+.pytest_cache/
